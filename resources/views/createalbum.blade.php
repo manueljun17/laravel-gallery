@@ -45,10 +45,11 @@
             </ul>
           </div>
         @endif
-
+        
         <form name="createnewalbum" method="POST"action="{{URL::route('create_album')}}"enctype="multipart/form-data">
           <fieldset>
             <legend>Create an Album</legend>
+            <img id="myProfile" src="{{asset('albums/profile.png')}}" width="150px" height="150px"></img>
             <div class="form-group">
               <label for="name">Album Name</label>
               <input name="name" type="text" class="form-control"placeholder="Album Name"value="{{Input::old('name')}}">
@@ -59,13 +60,28 @@
             </div>
             <div class="form-group">
               <label for="cover_image">Select a Cover Image</label>
-              {{Form::file('cover_image')}}
+              <input name="cover_image" type="file" class="form-control" onchange="showimagepreview(this)" />
             </div>
+            
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <button type="submit" class="btnbtn-default">Create!</button>
           </fieldset>
         </form>
       </div>
     </div> <!-- /container -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript">
+      function showimagepreview(input) 
+      {
+        if (input.files && input.files[0]) 
+        {
+          var filerdr = new FileReader();
+          filerdr.onload = function(e) {
+              $('#myProfile').attr('src', e.target.result);
+          };
+          filerdr.readAsDataURL(input.files[0]);
+        }
+      }
+  </script>
   </body>
 </html>
