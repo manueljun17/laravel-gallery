@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use File;
+
 use App\Album;
 
 use Illuminate\Support\Facades\Validator;
@@ -64,9 +66,9 @@ class AlbumsController extends Controller
     public function getDelete($id)
     {
         $album = Album::find($id);
-
+        $image = 'albums/' . $album->cover_image;
+        File::delete($image);
         $album->delete();
-
         return Redirect::route('index');
     }
 }
